@@ -24,7 +24,7 @@ def main():
     
    
     parser = argparse.ArgumentParser()
-    parser.add_argument("--model", default="medium", help="Model to use",
+    parser.add_argument("--model", default="small", help="Model to use",
                         choices=["tiny", "base", "small", "medium", "large"])
     parser.add_argument("--device", default="auto", help="device to user for CTranslate2 inference",
                         choices=["auto", "cuda","cpu"])                   
@@ -85,7 +85,7 @@ def main():
     
     model = args.model
     if args.model != "large-v2" and not args.non_english:
-        model = model + ".en"
+        model = model 
         
     translation_lang = args.translation_lang    
     device = args.device
@@ -96,6 +96,7 @@ def main():
     cpu_threads = args.threads
     
     nltk.download('punkt')
+    nltk.download('punkt_tab')  # Add this line
     audio_model = WhisperModel(model, device = device, compute_type = compute_type , cpu_threads = cpu_threads)
     window = TranscriptionWindow()
     
@@ -154,7 +155,7 @@ def main():
                 # Read the transcription.
                 text = ""
                     
-                segments, info = audio_model.transcribe(temp_file)
+                segments, info = audio_model.transcribe(temp_file,language="tr")
                 for segment in segments:
                     text += segment.text
                 #text = result['text'].strip()
